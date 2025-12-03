@@ -1,6 +1,8 @@
-# 📡 ECE 452s — Source Encoding Project
+-----
 
-*Ain Shams University — Faculty of Engineering* *Course: ECE 452s — Information Theory and Coding* *Instructor: [Prof. Bassant Abdelhamid]*
+# 📡 ECE 452s — Source Encoding Project (Fall 2025)
+
+*Ain Shams University — Faculty of Engineering* *Course: ECE 452s — Information Theory and Coding* *Instructor: [Instructor Name]*
 
 ## 👥 Team Members
 
@@ -14,15 +16,15 @@
 
 ## 📝 Project Overview
 
-This project covers the implementation of fundamental source coding techniques using **MATLAB/GNU-Octave**. The goal is to design efficient encoding schemes to compress data by exploiting statistical redundancies.
+This project focuses on the implementation of lossless source coding algorithms using **MATLAB/GNU-Octave**. The primary goal is to compress discrete data by exploiting statistical redundancies.
 You will:
 
-1.  Analyze a discrete memoryless source (DMS) and compute information measures.
-2.  Implement **Shannon Binary Coding**.
-3.  Implement **Huffman Coding**.
-4.  Compare the efficiency and performance of both coding schemes against the source entropy.
+1.  Define a discrete memoryless source with specific symbol probabilities.
+2.  Implement **Shannon Binary Coding** based on cumulative probabilities.
+3.  Implement **Huffman Coding** using the binary tree reduction method.
+4.  Compare the resulting code lengths and efficiencies against the source Entropy.
 
-All algorithms, calculations, and performance comparisons are documented in the final report.
+All results, codeword tables, and efficiency metrics are analyzed in the final report.
 
 -----
 
@@ -31,66 +33,67 @@ All algorithms, calculations, and performance comparisons are documented in the 
 ```
 .
 ├── README.md
-├── task_1_entropy.m      # Source analysis & Entropy calculation
-├── task_2_shannon.m      # Shannon Binary Coding implementation
-├── task_3_huffman.m      # Huffman Coding implementation
-├── task_4_compare.m      # Performance comparison & plots
-├── data/
-│   └── probabilities.mat # Source probability input (optional)
+├── shannon_binary.m      # Function: Implements Shannon coding logic
+├── huffman_coding.m      # Function: Implements Huffman tree & coding
+├── main_project.m        # Main script to run both algorithms & compare
 └── report/
-    └── ECE452s_Project_Report_Group[Num].pdf
+    └── ECE452_Project_Report.pdf
 ```
 
 -----
 
 ## 📋 Project Tasks
 
-### **Task 1 — Information Measures 📊**
+### **Task 1 — Source Analysis & Entropy 📊**
 
-  - Define the source alphabet and probability distribution $P(x_i)$.
-  - Verify that $\sum P(x_i) = 1$.
-  - Compute the **Self-Information** for each symbol: $I(x_i) = -\log_2(P(x_i))$.
-  - Compute the **Source Entropy** $H(X)$ in bits/symbol.
+  - Define the source alphabet symbols and their associated probabilities $P(x_i)$.
+  - Ensure the sum of probabilities equals 1.
+  - Compute the theoretical **Source Entropy** $H(X)$:
+    $$H(X) = - \sum_{i} P(x_i) \log_2 P(x_i) \quad [\text{bits/symbol}]$$
 
 -----
 
 ### **Task 2 — Shannon Binary Coding 0️⃣1️⃣**
 
-  - Sort probabilities in descending order.
-  - Calculate the cumulative probabilities $\alpha_i$.
-  - Determine the codeword length $l_i$ for each symbol: $l_i = \lceil -\log_2 P(x_i) \rceil$.
-  - Generate the binary codewords based on the binary expansion of $\alpha_i$.
-  - Compute the **Average Code Length** $L_{avg}$ for Shannon coding.
+  - **Step 1:** Sort probabilities in descending order.
+  - **Step 2:** Calculate cumulative probabilities $\alpha_i$ (where $\alpha_1 = 0$).
+  - **Step 3:** Determine codeword length $l_i$:
+    $$l_i = \lceil -\log_2 P(x_i) \rceil$$
+  - **Step 4:** Generate codewords by converting $\alpha_i$ to binary and truncating to $l_i$ bits.
+  - **Output:** specific binary codewords for every symbol.
 
 -----
 
 ### **Task 3 — Huffman Coding 🌲**
 
-  - Implement the Huffman algorithm (bottom-up tree construction).
-  - Group the two least probable symbols and repeat until one root node remains.
-  - Assign bits (0 and 1) to the branches to generate codewords.
-  - Display the resulting unique codewords for each symbol.
-  - Compute the **Average Code Length** $L_{avg}$ for Huffman coding.
+  - **Step 1:** Sort probabilities in descending order.
+  - **Step 2:** Combine the two lowest probabilities into a new node.
+  - **Step 3:** Re-sort and repeat until a single root node (probability 1.0) remains.
+  - **Step 4:** Trace back from root to leaves (assign `0` to upper branch, `1` to lower branch) to form codewords.
+  - **Output:** Optimal prefix-free codewords.
 
 -----
 
-### **Task 4 — Performance Analysis & Comparison 📈**
+### **Task 4 — Performance Comparison 📈**
 
-For both Shannon and Huffman techniques, calculate and compare:
+Compare the two techniques by calculating:
 
-  - **Coding Efficiency**: $\eta = \frac{H(X)}{L_{avg}} \times 100\%$.
-  - **Redundancy**: $R = 1 - \eta$.
-  - **Compression Ratio**.
-  - Discuss which method yields an $L_{avg}$ closer to the theoretical limit $H(X)$.
+1.  **Average Code Length ($L_{avg}$)**:
+    $$L_{avg} = \sum_{i} P(x_i) \cdot l_i$$
+2.  **Coding Efficiency ($\eta$)**:
+    $$\eta = \frac{H(X)}{L_{avg}} \times 100\%$$
+3.  **Redundancy ($R$)**: $1 - \eta$
+
+*Conclusion:* Analyze why Huffman generally provides a shorter average length (or equal) compared to Shannon Binary coding.
 
 -----
 
 ## 🚀 Running the Code
 
 1.  Clone the repository.
-2.  Open **MATLAB** or **GNU-Octave**.
-3.  Navigate to the project directory.
-4.  Run the individual task scripts (e.g., `task_2_shannon.m`) to view the output codewords and calculations in the Command Window.
+2.  Open `main_project.m` in MATLAB or Octave.
+3.  Adjust the `probabilities` array if you wish to test different source data.
+4.  Run the script to see the generated codewords and efficiency stats in the Command Window.
 
 -----
 
@@ -98,5 +101,5 @@ For both Shannon and Huffman techniques, calculate and compare:
 
 Submit a single compressed file containing:
 
-  - All `.m` function and script files.
-  - The final PDF report (including manual derivations, codeword tables, and efficiency comparisons).
+  - The `.m` source files (`shannon_binary.m`, `huffman_coding.m`, `main_project.m`).
+  - The final PDF report containing the problem statement, derivations, and comparison results.
