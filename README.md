@@ -2,7 +2,7 @@
 
 # 📡 ECE 452s — Source Encoding Project (Fall 2025)
 
-*Ain Shams University — Faculty of Engineering* *Course: ECE 452s — Information Theory and Coding* *Instructor: [Instructor Name]*
+*Ain Shams University — Faculty of Engineering* *Course: ECE 452s — Information Theory and Coding* *Instructor:Dr. Bassant Abdelhamid*
 
 ## 👥 Team Members
 
