@@ -13,7 +13,7 @@ diary(log_filename);
 diary on
 
 %% Load Image
-image = imread("dog.png");
+image = imread("pic.png");
 % for JPEG images (redundant genralization)
 if ndims(image)==3                % colour image
     image = rgb2gray(image);      % 0-255 grayscale
@@ -21,6 +21,9 @@ end
 
 [r, c] = size(image);
 [prob, I, H_2, counts, symbols] = imgstats(image,r,c);
+
+I_table = table(I, 'VariableNames', {'Information Gain'});
+writetable(I_table, "Information Gain.xlsx");
 
 %% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -32,6 +35,9 @@ end
 [codebook_sh_bin, len_avg_sh_bin, alpha] = sh_bin_dict(prob, I, H_2);
 
 encoded_seq_sh_bin = encoder(codebook_sh_bin, image, symbols); 
+% % Create formatted table
+T = table(symbols, alpha, codebook_sh_bin, 'VariableNames', {'values', 'alpha', 'Bits'});
+writetable(T, "sh_bin_Dictionary.xlsx");
 
 %% 
 
@@ -84,5 +90,9 @@ if mse_huff < eps
 else
     fprintf("The Mean Square Error = %.5f\n\n",mse_huff)
 end
+
+% % Create formatted table
+T2 = table(symbols, codebook_huff, 'VariableNames', {'values', 'Bits'});
+writetable(T2, "huff_Dictionary.xlsx");
 
 diary off
