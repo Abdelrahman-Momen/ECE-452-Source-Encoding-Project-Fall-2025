@@ -29,9 +29,19 @@ dict = struct2cell(generateHuffmanDict(nodes, []));
 codebook_huff = dict(2,:)';
 symbols = cell2mat(dict(1,:))';
 
-prob_sort = sort(prob);
+% 1. Get lengths of the generated codes
 l = strlength(codebook_huff);
-len_avg_huff = sum(prob_sort .* l);
+
+% 2. CRITICAL STEP: Map original probabilities to the new symbol order
+% 'sym' is the original symbol list, 'symbols' is the list from the tree
+[~, loc] = ismember(symbols, sym); 
+
+% 3. Reorder the probabilities to match the codebook perfectly
+prob_aligned = prob(loc);
+
+% 4. Now calculate the average length
+len_avg_huff = sum(prob_aligned .* l);
+
 efficiency_huff = H_2 / len_avg_huff;
 fprintf("\nHuffman Efficiency equals %.3f \n", efficiency_huff);
 
