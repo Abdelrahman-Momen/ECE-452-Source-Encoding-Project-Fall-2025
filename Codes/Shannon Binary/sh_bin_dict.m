@@ -1,4 +1,4 @@
-function [codebook_sh_bin, len_avg_Sh_Bin, alpha]= sh_bin_dict(prob, I, H_2)
+function [codebook_sh_bin, len_avg_sh_bin, alpha]= sh_bin_dict(prob, I, H_2)
 
   L = length(prob);
 
@@ -10,7 +10,7 @@ function [codebook_sh_bin, len_avg_Sh_Bin, alpha]= sh_bin_dict(prob, I, H_2)
   l = ceil(I);
 
   % 3. Calculate Average Codeword Length
-  len_avg_Sh_Bin = sum(prob .* l);
+  len_avg_sh_bin = sum(prob .* l);
   efficiency_sh_bin = H_2 / len_avg_sh_bin;
   fprintf("Shannon Binary Efficiency equals %.3f \n", efficiency_sh_bin);
   % -------------------------------------------------------------------
@@ -62,3 +62,4 @@ function [codebook_sh_bin, len_avg_Sh_Bin, alpha]= sh_bin_dict(prob, I, H_2)
   
 
 end
+
