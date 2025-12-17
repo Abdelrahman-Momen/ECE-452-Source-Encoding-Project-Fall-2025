@@ -13,7 +13,7 @@ diary(log_filename);
 diary on
 
 %% Load Image
-image = imread("landscape.png");
+image = imread("dog.png");
 % for JPEG images (redundant genralization)
 if ndims(image)==3                % colour image
     image = rgb2gray(image);      % 0-255 grayscale
@@ -43,13 +43,15 @@ encoded_seq_sh_bin = encoder(codebook_sh_bin, image, symbols);
 
 decoded_seq_sh_bin = decoder(codebook_sh_bin, r, c, encoded_seq_sh_bin, symbols);
 
-if all(image(:) == decoded_seq_sh_bin(:)) % Using all() for array comparison
+mse_sh_bin = sum(sum((decoded_seq_sh_bin - image).^2))/(r*c+1);
+
+if mse_sh_bin < eps 
     disp('Shannon Binary Reconstruction OK/NO Errors')
     figure;
     imshow(decoded_seq_sh_bin)
     title('Decoded Shannon Binary Code')
 else
-    disp('Shannon Binary False')
+    fprintf("The Mean Square Error = %.5f\n\n",mse_sh_bin)
 end
 
 %% 
