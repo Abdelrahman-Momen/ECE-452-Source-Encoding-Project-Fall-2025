@@ -1,17 +1,15 @@
-function [prob, I, H_2, counts, symbols] = imgstats(image)
-  % Check and store image size
-  [r, c] = size(image);
+function [prob, I, H_2, counts, symbols] = imgstats(image,r,c)
 
   % 1. Histogram counts
   counts = imhist(image);
 
   % --- Display Code ---
-  figure; imshow(image);
+  figure; imshow(image); title("Input Image");
   figure; imhist(image)
-  title("Histogram")
+  title("Image Levels Histogram")
   xlabel("Image Levels")
   ylabel("Total Number of occurences")
-  ylim([0  max(counts)]);
+  ylim([0  1.1*max(counts)]);
   xlim([0 255]);
   grid on
   % -------------------------------------------------
@@ -46,5 +44,5 @@ function [prob, I, H_2, counts, symbols] = imgstats(image)
   I = -log2(prob);
   
   H_2 = sum(prob .* I);
-  fprintf("Entropy equals %.3f \n", H_2);
+  fprintf("Entropy equals %.3f \n\n", H_2);
 end
