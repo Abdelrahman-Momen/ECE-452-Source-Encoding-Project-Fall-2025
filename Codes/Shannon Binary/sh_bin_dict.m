@@ -62,4 +62,3 @@ function [codebook_sh_bin, len_avg_sh_bin, alpha]= sh_bin_dict(prob, I, H_2)
   
 
 end
-
