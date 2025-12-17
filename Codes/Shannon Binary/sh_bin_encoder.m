@@ -1,61 +1,21 @@
-function [encoded_seq, loc] = sh_bin_encoder(codebook_sh_bin, image)
+function [encoded_seq, loc] = sh_bin_encoder(codebook_sh_bin, image, symbols)
+%                                                            ^^^^^^^ New Input
+
 % 1. same initial "string" stream you already create
 stream      = string(image(:));              % r*c×1 string column
 stream      = strtrim(stream);               % (defensive, keeps your line)
 
 % 2. build the look-up table once
-dict_length = height(codebook_sh_bin);       % number of codewords
-colorValues = string(0:dict_length-1).';     % 0-based colour indices as strings
+% CRITICAL FIX: colorValues must be the actual pixel values present in the image,
+% sorted according to the probability list that generated the codebook.
+colorValues = string(symbols);               % Convert the 0-255 values to strings
 
 % 3. vectorised look-up: find the row index for every pixel
-[~, loc]    = ismember(stream, colorValues); % loc(i) = row in codebook_sh_bin
+[~, loc]    = ismember(stream, colorValues); % loc(i) = 1-based row index in codebook_sh_bin
 
-encoded_seq = codebook_sh_bin(loc);          % r*c×1 string array
-% 1. same initial "string" stream you already create
-stream      = string(image(:));              % r*c×1 string column
-stream      = strtrim(stream);               % (defensive, keeps your line)
-
-% 2. build the look-up table once
-dict_length = height(codebook_sh_bin);       % number of codewords
-colorValues = string(0:dict_length-1).';     % 0-based colour indices as strings
-
-% 3. vectorised look-up: find the row index for every pixel
-[~, loc]    = ismember(stream, colorValues); % loc(i) = row in codebook_sh_bin
+% If loc contains 0, it means a pixel value in the image was not present
+% in 'symbols', indicating a major fault in imgstats, but now it should be fixed.
 
 encoded_seq = codebook_sh_bin(loc);          % r*c×1 string array
 
-
-
-
-
-
-
-
-
-##
-##function [encoded_seq, loc] = sh_bin_encoder(codebook_sh_bin, image)
-##
-##% -----------------------------------------------------------
-##%  VECTORISED REPLACEMENT (same names, no loops)
-##% -----------------------------------------------------------
-##% Convert image color values to bits
-##[r, c] = size(image);
-##stream      = string(image(:));            % 0-255 as strings
-##stream      = strtrim(stream);             % your defensive line
-##dict_length = height(codebook_sh_bin);     % number of codewords
-##colorValues = string(0:dict_length-1).';   % 0-based symbols as strings
-##[~, loc]    = ismember(stream, colorValues);% index into dictionary
-##encoded_seq = codebook_sh_bin(loc);        % r*c×1 string array
-##
-##% 1. same initial "string" stream you already create
-##% stream      = string(image(:));              % r*c×1 string column
-##% stream      = strtrim(stream);               % (defensive, keeps your line)
-##%
-##% % 2. build the look-up table once
-##% dict_length = height(codebook_sh_bin);       % number of codewords
-##% colorValues = string(0:dict_length-1).';     % 0-based colour indices as strings
-##%
-##% % 3. vectorised look-up: find the row index for every pixel
-##% [~, loc]    = ismember(stream, colorValues); % loc(i) = row in codebook_sh_bin
-##% encoded_seq = codebook_sh_bin(loc);          % r*c×1 string array
-
+end
