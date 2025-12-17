@@ -4,7 +4,7 @@ function [codebook_sh_bin, len_avg_Sh_Bin, alpha]= sh_bin_dict(prob, I)
 
   % 1. Calculate Cumulative probability factor (alpha) - (VECTORIZED, UNCHANGED)
   alpha = zeros(L, 1);
-  alpha(2:end) = cumsum(prob(1:end-1)); % Cumulative probability of last alpha is not equal to 1, thus : end - 1 not : end
+  alpha(2:end) = cumsum(prob(1:end-1));
 
   % 2. Calculate Codeword Lengths (l) - (VECTORIZED, UNCHANGED)
   l = ceil(I);
@@ -23,7 +23,7 @@ function [codebook_sh_bin, len_avg_Sh_Bin, alpha]= sh_bin_dict(prob, I)
   % Create the matrix of powers of 2 (1/2, 2/2, 4/2, 8/2, ... = 2^1, 2^2, 2^3, ...)
   % Size: L x max_l. Each column is [2^1; 2^1; ...] for the first bit, 
   % then [2^2; 2^2; ...] for the second bit, etc.
-  P = 2.^(1:max_l); % matrix of powers of 2 
+  P = 2.^(1:max_l);
 
   % B. Calculate the Intermediate Values
   % Matrix multiplication/element-wise product:
@@ -48,7 +48,6 @@ function [codebook_sh_bin, len_avg_Sh_Bin, alpha]= sh_bin_dict(prob, I)
   
   % The difference calculates V_floor(i) - V_floor(i-1)
   % But we need the difference *modulo 2*
-  % Y = diff(X,n,dim) is the nth difference calculated along the dimension specified by dim. The dim input is a positive integer scalar.
   V_bits = mod(diff(V_padded, 1, 2), 2); % Size L x max_l
   
   % D. Convert bits to strings
