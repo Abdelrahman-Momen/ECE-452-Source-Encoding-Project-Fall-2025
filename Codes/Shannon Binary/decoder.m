@@ -1,11 +1,9 @@
-function decoded_sequence = decoder(codebook_sh_bin, r, c, encoded_seq, symbols)
+function decoded_sequence = decoder(codebook, r, c, encoded_seq, symbols)
    
     bitChars   = char(join(encoded_seq, ""));
     bitstream  = bitChars - '0';
     bitstream  = bitstream(:);
     fprintf('Length of bitstream: %d characters\n\n', length(bitstream));
-
-    L = height(codebook_sh_bin);
 
     % -----------------------------------------------------------------------
     %                                DECODER
@@ -15,7 +13,7 @@ function decoded_sequence = decoder(codebook_sh_bin, r, c, encoded_seq, symbols)
     k                = 0;
 
     % pre-build a look-up table once
-    dictStrings = codebook_sh_bin.';
+    dictStrings = codebook.';
 
     for i = 1:numel(bitstream)
         current_buffer = current_buffer + char('0' + bitstream(i));
