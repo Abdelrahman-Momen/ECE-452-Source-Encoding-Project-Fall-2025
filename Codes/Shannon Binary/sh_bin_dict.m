@@ -1,19 +1,20 @@
-function [codebook_sh_bin, len_avg_Sh_Bin, alpha]= sh_bin_dict(prob, I)
+function [codebook_sh_bin, len_avg_Sh_Bin, alpha]= sh_bin_dict(prob, I, H_2)
 
   L = length(prob);
 
-  % 1. Calculate Cumulative probability factor (alpha) - (VECTORIZED, UNCHANGED)
+  % 1. Calculate Cumulative probability factor (alpha)
   alpha = zeros(L, 1);
   alpha(2:end) = cumsum(prob(1:end-1));
 
-  % 2. Calculate Codeword Lengths (l) - (VECTORIZED, UNCHANGED)
+  % 2. Calculate Codeword Lengths (l)
   l = ceil(I);
 
-  % 3. Calculate Average Codeword Length - (VECTORIZED, UNCHANGED)
+  % 3. Calculate Average Codeword Length
   len_avg_Sh_Bin = sum(prob .* l);
-
+  efficiency_sh_bin = H_2 / len_avg_sh_bin;
+  fprintf("Shannon Binary Efficiency equals %.3f \n", efficiency_sh_bin);
   % -------------------------------------------------------------------
-  % 4. VECTORIZED BINARY CODEWORD GENERATION (Optimized Section)
+  %                   BINARY CODEWORD GENERATION
   % -------------------------------------------------------------------
   
   % A. Set up the matrix for multiplication
@@ -58,5 +59,6 @@ function [codebook_sh_bin, len_avg_Sh_Bin, alpha]= sh_bin_dict(prob, I)
       % Join the characters into a string (codeword)
       codebook_sh_bin{j} = join(v_char, "");
   end
+  
 
 end
